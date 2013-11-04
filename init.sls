@@ -3,7 +3,7 @@
 clean_ruby_packages:
   pkg:
   - removed
-  - names: {{ params.obsolete_packages| json }}
+  - names: {{ params.obsolete_packages|json }}
 
 {% if params.build_from_source %}
 
