@@ -11,14 +11,17 @@
 
 {% if version == '1.8' %}
 {% set release = '1.8.7-p374' %}
+{% set checksum = 'md5=c351450a0bed670e0f5ca07da3458a5b' %}
 {% set obsolete_packages = ['ruby1.9.1-full'] %}}
 {% set build_from_source = false %}
 {% elif version == '1.9' %}
 {% set release = '1.9.3-p448' %}
+{% set checksum = 'md5=c351450a0bed670e0f5ca07da3458a5b' %}
 {% set build_from_source = false %}
 {% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full'] %}
 {% elif version == '2.0' %}
 {% set release = '2.0.0-p247' %}
+{% set checksum = 'md5=c351450a0bed670e0f5ca07da3458a5b' %}
 {% set build_from_source = true %}
 {% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full', 'ruby1.9.1-full'] %}
 {% endif %}
@@ -48,7 +51,7 @@ ruby_download:
   file.managed:
     - name: /root/{{ base_file }}
     - source: {{ base_url }}/{{ base_file }}
-{#    - source_hash: {{ checksum }} #}
+    - source_hash: {{ checksum }}
     - require:
       - pkg: ruby_dependencies
       - pkg: ruby_clean_packages
