@@ -10,17 +10,17 @@
 {% endif %}
 
 {% if version == '1.8' %}
-{% release = '1.8.7-p374' %}
-{% obsolete_packages = ['ruby1.9.1-full'] %}}
-{% build_from_source = false %}
+{% set release = '1.8.7-p374' %}
+{% set obsolete_packages = ['ruby1.9.1-full'] %}}
+{% set build_from_source = false %}
 {% elif ruby_version == '1.9' %}
-{% release = '1.9.3-p448' %}
-{% build_from_source = false %}
-{% obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full'] }}
+{% set release = '1.9.3-p448' %}
+{% set build_from_source = false %}
+{% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full'] }}
 {% elif ruby_version == '2.0' %}
-{% release = '2.0.0-p247' %}
-{% build_from_source = true %}
-{% obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full', 'ruby1.9.1-full'] %}
+{% set release = '2.0.0-p247' %}
+{% set build_from_source = true %}
+{% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full', 'ruby1.9.1-full'] %}
 {% endif %}
 
 {% set base_url_fragments = [ 'http://ftp.ruby-lang.org/pub/ruby/', version, '/' ] %}
