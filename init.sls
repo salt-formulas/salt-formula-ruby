@@ -16,7 +16,7 @@
 {% elif ruby_version == '1.9' %}
 {% set release = '1.9.3-p448' %}
 {% set build_from_source = false %}
-{% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full'] }}
+{% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full'] %}
 {% elif ruby_version == '2.0' %}
 {% set release = '2.0.0-p247' %}
 {% set build_from_source = true %}
