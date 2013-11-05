@@ -3,7 +3,10 @@
 clean_ruby_packages:
   pkg:
   - removed
-  - names: {{ params.obsolete_packages|json }}
+  - names:
+    {%- for package in params.obsolete_packages %}
+    - {{ package }}
+    {%- endfor %}
 
 {% if params.build_from_source %}
 
