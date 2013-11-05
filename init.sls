@@ -73,7 +73,7 @@ ruby_make:
       - make
       - make install
     - watch:
-      - cmd: ruby_download
+      - cmd: ruby_unpack
 
 ruby_bundler_gem:
   cmd.run:
