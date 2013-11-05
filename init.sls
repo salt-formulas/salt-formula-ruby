@@ -29,7 +29,7 @@
 {% set base_file_fragments = [ 'ruby-', release, '.tar.gz' ] %}
 {% set base_file = base_file_fragments|join('') %}
 
-clean_ruby_packages:
+ruby_clean_packages:
   pkg:
   - removed
   - names:
@@ -39,36 +39,45 @@ clean_ruby_packages:
 
 {% if build_from_source %}
 
-download_ruby_package:
-  cmd.run:
-  - name: wget {{ base_url }}/{{ base_file }}
-  - unless: "[ -f /root/{{ base_file }} ]"
-  - cwd: /root
-  - require:
-    - pkg: clean_ruby_packages
+ruby_dependencies:
+  pkg.installed:
+  - names:
+    - build-essential
+ 
+ruby_download:
+  file.managed:
+    - name: /root/{{ base_file }}
+    - source: {{ base_url }}/{{ base_file }}
+{#    - source_hash: {{ checksum }} #}
+    - require:
+      - pkg: ruby_dependencies
+      - pkg: ruby_clean_packages
 
-untar_ruby_package:
-  cmd.run:
-  - name: tar -xzf {{ base_file }} 
+ruby_unpack:
+  cmd.wait:
+  - cwd: {{ root }}
   - unless: "[ -d /root/ruby-{{ version }} ]"
-  - cwd: /root
-  - require:
-    - cmd: download_ruby_package
+  - names:
+    - tar -zxvf /root/{{ base_file }} -C {{ root }}
+  - watch:
+    - file: ruby_download
 
-compile_ruby_package:
-  cmd.run:
-  - name: ./configure && make && make install
-#  - unless: "[ -d /root/ruby-{{ version }} ]"
-  - cwd: /root/ruby-{{ version }}
-  - require:
-    - cmd: untar_ruby_package
+ruby_make:
+  cmd.wait:
+    - cwd: {{ root }}/ruby-{{ version }}
+    - names:
+      - ./configure
+      - make
+      - make install
+    - watch:
+      - cmd: ruby_download
 
-install_ruby_bundler:
+ruby_bundler_gem:
   cmd.run:
   - name: gem install bundler
 #  - unless: "[ -d /root/ruby-{{ version }} ]"
   - require:
-    - cmd: compile_ruby_package
+    - cmd: ruby_make
 
 {% else %}
 
