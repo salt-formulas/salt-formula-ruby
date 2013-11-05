@@ -69,7 +69,7 @@ ruby_make:
   cmd.wait:
     - cwd: /root/ruby-{{ version }}
     - names:
-      - ./configure
+      - /root/ruby-{{ version }}/configure
       - make
       - make install
     - watch:
