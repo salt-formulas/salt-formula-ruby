@@ -55,16 +55,16 @@ ruby_download:
 
 ruby_unpack:
   cmd.wait:
-  - cwd: {{ root }}
+  - cwd: /root
   - unless: "[ -d /root/ruby-{{ version }} ]"
   - names:
-    - tar -zxvf /root/{{ base_file }} -C {{ root }}
+    - tar -zxvf /root/{{ base_file }}
   - watch:
     - file: ruby_download
 
 ruby_make:
   cmd.wait:
-    - cwd: {{ root }}/ruby-{{ version }}
+    - cwd: /root/ruby-{{ version }}
     - names:
       - ./configure
       - make
