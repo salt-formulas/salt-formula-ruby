@@ -57,28 +57,28 @@ ruby_download:
       - pkg: ruby_clean_packages
 
 ruby_unpack:
-  cmd.wait:
+  cmd.run:
   - cwd: /root
   - unless: "[ -d /root/ruby-{{ version }} ]"
   - names:
     - tar -zxvf /root/{{ base_file }}
-  - watch:
+  - require:
     - file: ruby_download
 
 ruby_make:
   cmd.wait:
-    - cwd: /root/ruby-{{ version }}
     - names:
       - /root/ruby-{{ version }}/configure
       - make
       - make install
+    - cwd: /root/ruby-{{ version }}
     - watch:
       - cmd: ruby_unpack
 
 ruby_bundler_gem:
-  cmd.run:
+  cmd.wait:
   - name: gem install bundler
-  - require:
+  - watch:
     - cmd: ruby_make
 
 {% else %}
