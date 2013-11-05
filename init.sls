@@ -75,7 +75,6 @@ ruby_make:
 ruby_bundler_gem:
   cmd.run:
   - name: gem install bundler
-#  - unless: "[ -d /root/ruby-{{ version }} ]"
   - require:
     - cmd: ruby_make
 
@@ -98,6 +97,9 @@ ruby_packages:
     - rake
     - rubygems
     - ruby-bundler
+
+
 #}
 
 {% endif %}
+
