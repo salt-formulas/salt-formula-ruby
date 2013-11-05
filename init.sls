@@ -23,7 +23,7 @@
 {% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full', 'ruby1.9.1-full'] %}
 {% endif %}
 
-{% set base_url_fragments = [ 'http://ftp.ruby-lang.org/pub/ruby/', version, '/' ] %}
+{% set base_url_fragments = [ 'http://ftp.ruby-lang.org/pub/ruby/', version ] %}
 {% set base_url = base_url_fragments|join('') %}
 
 {% set base_file_fragments = [ 'ruby-', release, '.tar.gz' ] %}
