@@ -13,11 +13,11 @@
 {% set release = '1.8.7-p374' %}
 {% set obsolete_packages = ['ruby1.9.1-full'] %}}
 {% set build_from_source = false %}
-{% elif ruby_version == '1.9' %}
+{% elif version == '1.9' %}
 {% set release = '1.9.3-p448' %}
 {% set build_from_source = false %}
 {% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full'] %}
-{% elif ruby_version == '2.0' %}
+{% elif version == '2.0' %}
 {% set release = '2.0.0-p247' %}
 {% set build_from_source = true %}
 {% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full', 'ruby1.9.1-full'] %}
