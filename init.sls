@@ -59,7 +59,7 @@ ruby_download:
 ruby_unpack:
   cmd.run:
   - cwd: /root
-  - unless: "[ -d /root/ruby-{{ version }} ]"
+  - unless: "[ -d /root/ruby-{{ release }} ]"
   - names:
     - tar -zxvf /root/{{ base_file }}
   - require:
@@ -68,10 +68,10 @@ ruby_unpack:
 ruby_make:
   cmd.wait:
     - names:
-      - /root/ruby-{{ version }}/configure
+      - ./configure
       - make
       - make install
-    - cwd: /root/ruby-{{ version }}
+    - cwd: /root/ruby-{{ release }}
     - watch:
       - cmd: ruby_unpack
 
