@@ -41,7 +41,7 @@ clean_ruby_packages:
 
 download_ruby_package:
   cmd.run:
-  - name: wget {{ base_url }}
+  - name: wget {{ base_url }}/{{ base_file }}
   - unless: "[ -f /root/{{ base_file }} ]"
   - cwd: /root
   - require:
