@@ -49,12 +49,12 @@ ruby_dependencies:
  
 ruby_download:
   file.managed:
-    - name: /root/{{ base_file }}
-    - source: {{ base_url }}/{{ base_file }}
-    - source_hash: {{ checksum }}
-    - require:
-      - pkg: ruby_dependencies
-      - pkg: ruby_clean_packages
+  - name: /root/{{ base_file }}
+  - source: {{ base_url }}/{{ base_file }}
+  - source_hash: {{ checksum }}
+  - require:
+    - pkg: ruby_dependencies
+    - pkg: ruby_clean_packages
 
 ruby_unpack:
   cmd.run:
