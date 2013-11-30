@@ -12,7 +12,7 @@
 {% if version == '1.8' %}
 {% set release = '1.8.7-p374' %}
 {% set checksum = 'md5=c351450a0bed670e0f5ca07da3458a5b' %}
-{% set obsolete_packages = ['ruby1.9.1-full'] %}}
+{% set obsolete_packages = ['ruby1.9.1-full'] %}
 {% set build_from_source = false %}
 {% elif version == '1.9' %}
 {% set release = '1.9.3-p448' %}
