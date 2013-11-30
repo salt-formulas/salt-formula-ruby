@@ -87,7 +87,7 @@ ruby_repo:
   pkgrepo.managed:
   - ppa: brightbox/ruby-ng
   - require:
-    - pkg: clean_ruby_packages
+    - pkg: ruby_clean_packages
 
 ruby_packages:
   pkg:
