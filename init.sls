@@ -83,8 +83,6 @@ ruby_bundler_gem:
 
 {% else %}
 
-{#
-
 ruby_repo:
   pkgrepo.managed:
   - ppa: brightbox/ruby-ng
@@ -101,8 +99,4 @@ ruby_packages:
     - rubygems
     - ruby-bundler
 
-
-#}
-
 {% endif %}
-
