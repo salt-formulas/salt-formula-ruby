@@ -34,7 +34,7 @@
 
 ruby_clean_packages:
   pkg:
-  - removed
+  - purged
   - names:
     {%- for package in obsolete_packages %}
     - {{ package }}
@@ -95,6 +95,10 @@ ruby_packages:
   - require:
     - pkgrepo: ruby_repo
   - names:
+    {% if version == "1.9" %}
+    - ruby1.9.3
+    - ruby1.9.1-dev
+    {% endif %}
     - rake
     - rubygems
     - ruby-bundler
