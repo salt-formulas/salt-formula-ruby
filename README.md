@@ -10,9 +10,25 @@ Ruby is a dynamic, open source programming language with a focus on simplicity a
 
 ## Sample pillar
 
+### Ruby version 1.8
+
     ruby:
       enabled: true
       version: '1.8'
+      development: true
+
+### Ruby version 1.9
+
+    ruby:
+      enabled: true
+      version: '1.8'
+      development: true
+
+### Ruby version 2.0
+
+    ruby:
+      enabled: true
+      version: '2.0'
       development: true
 
 ## Read more
