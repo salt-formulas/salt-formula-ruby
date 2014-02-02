@@ -21,7 +21,7 @@ Ruby is a dynamic, open source programming language with a focus on simplicity a
 
     ruby:
       enabled: true
-      version: '1.8'
+      version: '1.9'
       development: true
 
 ### Ruby version 2.0
