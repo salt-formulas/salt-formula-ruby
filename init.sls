@@ -46,7 +46,7 @@ ruby_dependencies:
   pkg.installed:
   - names:
     - build-essential
-    - lib1g-dev
+    - zlib1g-dev
     - libssl-dev
     - libreadline6-dev
     - libyaml-dev 
