@@ -20,8 +20,8 @@
 {% set build_from_source = false %}
 {% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full'] %}
 {% elif version == '2.0' %}
-{% set release = '2.0.0-p247' %}
-{% set checksum = 'md5=c351450a0bed670e0f5ca07da3458a5b' %}
+{% set release = '2.0.0-p353' %}
+{% set checksum = 'md5=78282433fb697dd3613613ff55d734c1' %}
 {% set build_from_source = true %}
 {% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full', 'ruby1.9.1-full'] %}
 {% endif %}
@@ -46,7 +46,11 @@ ruby_dependencies:
   pkg.installed:
   - names:
     - build-essential
- 
+    - lib1g-dev
+    - libssl-dev
+    - libreadline6-dev
+    - libyaml-dev 
+
 ruby_download:
   file.managed:
   - name: /root/{{ base_file }}
@@ -68,7 +72,7 @@ ruby_unpack:
 ruby_make:
   cmd.wait:
     - names:
-      - ./configure
+      - ./configure --prefix=/usr/local
       - make
       - make install
     - cwd: /root/ruby-{{ release }}
