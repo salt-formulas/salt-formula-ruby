@@ -18,12 +18,12 @@
 {% set release = '1.9.3-p448' %}
 {% set checksum = 'md5=c351450a0bed670e0f5ca07da3458a5b' %}
 {% set build_from_source = false %}
-{% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full'] %}
+{% set obsolete_packages = ['ruby1.8-full'] %}
 {% elif version == '2.0' %}
 {% set release = '2.0.0-p353' %}
 {% set checksum = 'md5=78282433fb697dd3613613ff55d734c1' %}
 {% set build_from_source = true %}
-{% set obsolete_packages = ['rake', 'rubygems', 'ruby-bundler', 'ruby1.8-full', 'ruby1.9.1-full'] %}
+{% set obsolete_packages = ['ruby1.8-full', 'ruby1.9.1-full'] %}
 {% endif %}
 
 {% set base_url_fragments = [ 'http://ftp.ruby-lang.org/pub/ruby/', version ] %}
@@ -42,14 +42,17 @@ ruby_clean_packages:
 
 {% if build_from_source %}
 
+    {%- if grains.os_family == 'Debian' %}
+
 ruby_dependencies:
   pkg.installed:
   - names:
     - build-essential
-    - zlib1g-dev
     - libssl-dev
+    - libyaml-dev
+    - zlib1g-dev
     - libreadline6-dev
-    - libyaml-dev 
+    {%- endif %}
 
 ruby_download:
   file.managed:
@@ -57,7 +60,6 @@ ruby_download:
   - source: {{ base_url }}/{{ base_file }}
   - source_hash: {{ checksum }}
   - require:
-    - pkg: ruby_dependencies
     - pkg: ruby_clean_packages
 
 ruby_unpack:
@@ -108,3 +110,73 @@ ruby_packages:
     - ruby-bundler
 
 {% endif %}
+
+
+{#
+
+rvm:
+  group:
+    - present
+  user.present:
+    - gid: rvm
+    - home: /home/rvm
+    - require:
+      - group: rvm
+
+rvm-deps:
+  pkg.installed:
+    - names:
+      - bash
+      - coreutils
+      - gzip
+      - bzip2
+      - gawk
+      - sed
+      - curl
+      - git-core
+      - subversion
+
+mri-deps:
+  pkg.installed:
+  - names:
+    - build-essential
+    - openssl
+    - libreadline6
+    - libreadline6-dev
+    - curl
+    - git-core
+    - zlib1g
+    - zlib1g-dev
+    - libssl-dev
+    - libyaml-dev
+    - libsqlite3-0
+    - libsqlite3-dev
+    - sqlite3
+    - libxml2-dev
+    - libxslt1-dev
+    - autoconf
+    - libc6-dev
+    - libncurses5-dev
+    - automake
+    - libtool
+    - bison
+    - subversion
+    - ruby
+
+jruby-deps:
+  pkg.installed:
+  - names:
+    - curl
+    - g++
+    - openjdk-6-jre-headless
+
+ruby-1.9.2:
+  rvm.installed:
+  - default: True
+  - user: rvm
+  - require:
+    - pkg: rvm-deps
+    - pkg: mri-deps
+    - user: rvm
+
+#}
