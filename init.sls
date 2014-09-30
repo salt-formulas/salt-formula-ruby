@@ -6,7 +6,7 @@
 {% if pillar.ruby.version is defined %}
 {% set version = pillar.ruby.version %}
 {% else %}
-{% set version = '2.0' %}
+{% set version = '2.1' %}
 {% endif %}
 
 {% if version == '1.8' %}
@@ -24,6 +24,12 @@
 {% set checksum = 'md5=78282433fb697dd3613613ff55d734c1' %}
 {% set build_from_source = true %}
 {% set obsolete_packages = ['ruby1.8-full', 'ruby1.9.1-full'] %}
+{% elif version == '2.1' %}
+{% set release = '2.1.2' %}
+{% set checksum = 'md5=a5b5c83565f8bd954ee522bd287d2ca1' %}
+{% set build_from_source = true %}
+{% set obsolete_packages = ['ruby1.8-full', 'ruby1.9.1-full', 'ruby1.9.1'] %}
+
 {% endif %}
 
 {% set base_url_fragments = [ 'http://ftp.ruby-lang.org/pub/ruby/', version ] %}
