@@ -107,16 +107,15 @@ ruby_packages:
   - require:
     - pkgrepo: ruby_repo
   - names:
-    {% if version == "1.9" %}
+    {%- if version == "1.9" %}
     - ruby1.9.3
     - ruby1.9.1-dev
-    {% endif %}
+    {%- else %}
     - rake
-    - rubygems
     - ruby-bundler
+    {%- endif %}
 
 {% endif %}
-
 
 {#
 
