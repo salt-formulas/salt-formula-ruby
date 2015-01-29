@@ -25,14 +25,13 @@
 {% set build_from_source = true %}
 {% set obsolete_packages = ['ruby1.8-full', 'ruby1.9.1-full'] %}
 {% elif version == '2.1' %}
-{% set release = '2.1.2' %}
-{% set checksum = 'md5=a5b5c83565f8bd954ee522bd287d2ca1' %}
+{% set release = '2.1.5' %}
+{% set checksum = 'md5=df4c1b23f624a50513c7a78cb51a13dc' %}
 {% set build_from_source = true %}
 {% set obsolete_packages = ['ruby1.8-full', 'ruby1.9.1-full', 'ruby1.9.1'] %}
-
 {% endif %}
 
-{% set base_url_fragments = [ 'http://ftp.ruby-lang.org/pub/ruby/', version ] %}
+{% set base_url_fragments = [ 'http://cache.ruby-lang.org/pub/ruby/', version ] %}
 {% set base_url = base_url_fragments|join('') %}
 
 {% set base_file_fragments = [ 'ruby-', release, '.tar.gz' ] %}
