@@ -79,7 +79,7 @@ ruby_unpack:
 ruby_make:
   cmd.wait:
     - names:
-      - ./configure --prefix=/usr/local
+      - ./configure --prefix=/usr/local --disable-install-rdoc
       - make
       - make install
     - cwd: /root/ruby-{{ release }}
@@ -88,7 +88,7 @@ ruby_make:
 
 ruby_bundler_gem:
   cmd.wait:
-  - name: gem install bundler
+  - name: gem install bundler --no-ri --no-rdoc
   - watch:
     - cmd: ruby_make
 
