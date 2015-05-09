@@ -1,0 +1,6 @@
+applications:
+- ruby
+parameters:
+  ruby:
+    enabled: true
+    version: '1.9'
