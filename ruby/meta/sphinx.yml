@@ -1,0 +1,10 @@
+{%- from "ruby/map.jinja" import environment with context %}
+doc:
+  name: Ruby
+  description: A programming language
+  role:
+    environment:
+      name: environment
+      param:
+        version:
+          value: {{ salt['cmd.run']('ruby --version') }}

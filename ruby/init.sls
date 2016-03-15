@@ -1,10 +1,8 @@
+{%- from "ruby/map.jinja" import environment with context %}
+{%- if environment.enabled %}
 
-{% set os = salt['grains.item']('os')['os'] %}
-
-{% set os_family = salt['grains.item']('os_family')['os_family'] %}
-
-{% if pillar.ruby.version is defined %}
-{% set version = pillar.ruby.version %}
+{% if environment.version is defined %}
+{% set version = environment.version %}
 {% else %}
 {% set version = '2.1' %}
 {% endif %}
@@ -25,8 +23,8 @@
 {% set build_from_source = true %}
 {% set obsolete_packages = ['ruby1.8-full', 'ruby1.9.1-full'] %}
 {% elif version == '2.1' %}
-{% set release = '2.1.5' %}
-{% set checksum = 'md5=df4c1b23f624a50513c7a78cb51a13dc' %}
+{% set release = '2.1.8' %}
+{% set checksum = 'sha1=c7e50159357afd87b13dc5eaf4ac486a70011149' %}
 {% set build_from_source = true %}
 {% set obsolete_packages = ['ruby1.8-full', 'ruby1.9.1-full', 'ruby1.9.1'] %}
 {% endif %}
@@ -36,6 +34,8 @@
 
 {% set base_file_fragments = [ 'ruby-', release, '.tar.gz' ] %}
 {% set base_file = base_file_fragments|join('') %}
+
+{%- if environment.get('managed', True) %}
 
 ruby_clean_packages:
   pkg:
@@ -47,7 +47,7 @@ ruby_clean_packages:
 
 {% if build_from_source %}
 
-    {%- if grains.os_family == 'Debian' %}
+{%- if grains.os_family == 'Debian' %}
 
 ruby_dependencies:
   pkg.installed:
@@ -57,7 +57,8 @@ ruby_dependencies:
     - libyaml-dev
     - zlib1g-dev
     - libreadline6-dev
-    {%- endif %}
+
+{%- endif %}  
 
 ruby_download:
   file.managed:
@@ -76,21 +77,32 @@ ruby_unpack:
   - require:
     - file: ruby_download
 
-ruby_make:
+ruby_compile_configure:
   cmd.wait:
-    - names:
-      - ./configure --prefix=/usr/local --disable-install-rdoc
-      - make
-      - make install
-    - cwd: /root/ruby-{{ release }}
-    - watch:
-      - cmd: ruby_unpack
+  - name: ./configure --prefix=/usr/local --disable-install-rdoc
+  - cwd: /root/ruby-{{ release }}
+  - watch:
+    - cmd: ruby_unpack
+
+ruby_compile_make:
+  cmd.wait:
+  - name: make
+  - cwd: /root/ruby-{{ release }}
+  - watch:
+    - cmd: ruby_compile_configure
+
+ruby_compile_make_install:
+  cmd.wait:
+  - name: make install
+  - cwd: /root/ruby-{{ release }}
+  - watch:
+    - cmd: ruby_compile_make
 
 ruby_bundler_gem:
   cmd.wait:
   - name: gem install bundler --no-ri --no-rdoc
   - watch:
-    - cmd: ruby_make
+    - cmd: ruby_compile_make_install
 
 {% else %}
 
@@ -114,73 +126,28 @@ ruby_packages:
     - ruby-bundler
     {%- endif %}
 
-{% endif %}
+{%- endif %}
 
-{#
+{%- endif %}
 
-rvm:
-  group:
-    - present
-  user.present:
-    - gid: rvm
-    - home: /home/rvm
-    - require:
-      - group: rvm
+{%- for gem_name, gem in environment.gem.iteritems() %}
 
-rvm-deps:
-  pkg.installed:
-    - names:
-      - bash
-      - coreutils
-      - gzip
-      - bzip2
-      - gawk
-      - sed
-      - curl
-      - git-core
-      - subversion
+{{ gem.get('gem_bin', 'default') }}_{{ gem_name }}:
+  gem.installed:
+  - name: {{ gem_name }}
+  {%- if gem.executable is defined %}
+  - gem_bin: {{ gem.executable }}
+  {%- endif %}
+  {%- if gem.user is defined %}
+  - user: {{ gem.user }}
+  {%- endif %}
+  {%- if gem.ruby is defined %}
+  - ruby: {{ gem.ruby }}
+  {%- endif %}
+  {%- if gem.version is defined %}
+  - version: {{ gem.version }}
+  {%- endif %}
 
-mri-deps:
-  pkg.installed:
-  - names:
-    - build-essential
-    - openssl
-    - libreadline6
-    - libreadline6-dev
-    - curl
-    - git-core
-    - zlib1g
-    - zlib1g-dev
-    - libssl-dev
-    - libyaml-dev
-    - libsqlite3-0
-    - libsqlite3-dev
-    - sqlite3
-    - libxml2-dev
-    - libxslt1-dev
-    - autoconf
-    - libc6-dev
-    - libncurses5-dev
-    - automake
-    - libtool
-    - bison
-    - subversion
-    - ruby
+{%- endfor %}
 
-jruby-deps:
-  pkg.installed:
-  - names:
-    - curl
-    - g++
-    - openjdk-6-jre-headless
-
-ruby-1.9.2:
-  rvm.installed:
-  - default: True
-  - user: rvm
-  - require:
-    - pkg: rvm-deps
-    - pkg: mri-deps
-    - user: rvm
-
-#}
+{%- endif %}

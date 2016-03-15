@@ -1,0 +1,5 @@
+{% set environment = salt['grains.filter_by']({
+    'Debian': {
+        'pkgs': ['',]
+    },
+}, merge=salt['pillar.get']('ruby:environment')) %}

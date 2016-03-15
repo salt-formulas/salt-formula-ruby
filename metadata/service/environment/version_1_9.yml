@@ -1,6 +1,9 @@
 applications:
 - ruby
+classes:
+- service.ruby.support
 parameters:
   ruby:
-    enabled: true
-    version: '1.9'
+    environment:
+      enabled: true
+      version: '1.9'
